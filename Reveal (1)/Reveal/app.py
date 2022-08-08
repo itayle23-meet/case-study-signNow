@@ -21,23 +21,26 @@ firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 db = firebase.database() 
 
-##################
+################## 
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-	return render_template('index.html')
+    db.child('panckes').push({"key" : "value"})
+    return render_template('index.html')
 
 
-@app.route('/new_review', methods=["POST"])
-def new_review():
-    review= {"title" : request.form['title'], "text" : request.form['text'], "name" : request.form['username']}
-    db.child("Reviews").push(review)
+@app.route('/new_story', methods=["POST", "GET"])
+def new_story():
+
+    story= {"email" : request.form['email'], "text" : request.form['text'], "name" : request.form['name']}
+    print('story',story)
+    db.child("Stories").push(story)
     return redirect(url_for('index'))
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    reviews = db.child("Reviews").get().val()
-    return render_template("index.html", reviews = reviews)
+    stories = db.child("Stories").get().val()
+    return render_template("index.html", stories = stories)
 
 ################
 
