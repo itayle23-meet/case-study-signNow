@@ -26,6 +26,31 @@ def home():
 	return render_template('index.html')
 
 
+@app.route('/new_review', methods=["POST"])
+def new_review():
+    print("new review")
+    review= {"title" : request.form['title'], "text" : request.form['text'], "name" : request.form['username']}
+    db.child("Reviews").push(review)
+    print("redirecting")
+    return redirect(url_for('index'))
+
+@app.route('/index', methods=['GET', 'POST'])
+def index():
+    # if request.method == 'POST':
+    #     review= {"title" : request.form['title'], "text" : request.form['text'], "name" : request.form['username']}
+    #     try:
+    #         login_session['reviews'] = reviews
+    #         db.child("Reviews").push(reviews)
+    #         reviews = db.child("Reviews").get().val()
+    #         return render_template("index.html" , reviews = reviews)
+    #     except:
+    #         print("somthing went wrong")
+
+    reviews = db.child("Reviews").get().val()
+    print(reviews)
+    return render_template("index.html", reviews = reviews)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
