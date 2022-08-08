@@ -21,6 +21,8 @@ firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 db = firebase.database() 
 
+##################
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
 	return render_template('index.html')
@@ -37,7 +39,7 @@ def index():
     reviews = db.child("Reviews").get().val()
     return render_template("index.html", reviews = reviews)
 
-
+################
 
 if __name__ == '__main__':
     app.run(debug=True)
