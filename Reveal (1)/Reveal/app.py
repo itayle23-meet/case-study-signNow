@@ -27,6 +27,14 @@ db = firebase.database()
 def home():
     return render_template('index.html')
 
+@app.route('/home_a', methods=['GET', 'POST'])
+def home_a():
+    return render_template('index_a.html')
+
+@app.route('/home_h', methods=['GET', 'POST'])
+def home_h():
+    return render_template('index_h.html')
+
 
 @app.route('/new_story', methods=['GET', 'POST'])
 def new_story():
@@ -43,6 +51,35 @@ def index():
     print(stories)
     return render_template("index.html", stories = stories)
 
+@app.route('/new_story_a', methods=['GET', 'POST'])
+def new_story_a():
+    if request.method == 'POST':
+        story_a = {"email_a" : request.form['email_a'], "text_a" : request.form['text_a'], "name_a" : request.form['name_a']}
+        print('story_a',story_a)
+        db.child("Stories_a").push(story_a)
+        return redirect(url_for('index_a'))
+    return redirect(url_for('index_a'))
+
+@app.route('/index_a', methods=['GET', 'POST'])
+def index_a():
+    stories_a = db.child("Stories_a").get().val()
+    print(stories_a)
+    return render_template("index.html_a", stories_a = stories_a)
+
+@app.route('/new_story_h', methods=['GET', 'POST'])
+def new_story_h():
+    if request.method == 'POST':
+        story_h= {"email_h" : request.form['email_h'], "text_h" : request.form['text_h'], "name_h" : request.form['name_h']}
+        print('story_h',story_h)
+        db.child("Stories_h").push(story_h)
+        return redirect(url_for('index_h'))
+    return redirect(url_for('index_h'))
+
+@app.route('/index_h', methods=['GET', 'POST'])
+def index_h():
+    stories_h = db.child("Stories_h").get().val()
+    print(stories_h)
+    return render_template("index_h.html", stories_h= stories_h)
 
 
 ################
