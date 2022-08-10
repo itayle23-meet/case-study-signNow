@@ -64,7 +64,7 @@ def new_story_a():
 def index_a():
     stories_a = db.child("Stories_a").get().val()
     print(stories_a)
-    return render_template("index.html_a", stories_a = stories_a)
+    return render_template("index_a.html", stories_a = stories_a)
 
 @app.route('/new_story_h', methods=['GET', 'POST'])
 def new_story_h():
